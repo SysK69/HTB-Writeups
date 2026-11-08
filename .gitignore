@@ -1,0 +1,17 @@
+# Il repo PUBBLICO (hub) NON deve contenere il materiale privato
+_private/
+
+# Mai committare loot/hive grezzi
+*.hive
+*.ntds
+*.kirbi
+*.ccache
+sam.hive
+system.hive
+ntds.dit
+
+# Temp
+*.log
+*.pyc
+__pycache__/
+*.out

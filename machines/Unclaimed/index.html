@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unclaimed — Writeup (protetto) · Sh4d0wC4ts</title>
+<link rel="stylesheet" href="../../assets/theme.css">
+<style>.wrap{max-width:820px;} .main{max-width:none;margin:0 auto;}</style>
+</head>
+<body>
+
+<div class="nav"><div class="inner">
+  <div class="logo">😼 <a href="../../" style="color:inherit"><span class="sy">Sh4d0wC4ts</span><span class="slash">/</span><span>WRITEUP CTF</span></a></div>
+  <div class="menu"><a href="https://app.hackthebox.com/teams/8832" target="_blank" class="discord">HTB Team · 8832</a></div>
+</div></div>
+
+<div class="wrap"><main class="main">
+
+  <div class="crumb"><a href="../../">⌂ Home</a> <span class="sep">/</span> <a href="../../">Writeups</a> <span class="sep">/</span> <span class="cur">Unclaimed</span></div>
+
+  <div class="chips">
+    <span class="chip-notes">WRITEUP</span>
+    <span class="chip-info">WINDOWS · MEDIUM · 30 PTS · 2026-11-07</span>
+  </div>
+
+  <h1 class="title">Unclaimed — HackTheBox</h1>
+  <p class="excerpt">Dal chatbot "TracerBot" alla SYSTEM: prompt-injection su un agente text-to-SQL, RCE via <code>xp_cmdshell</code>, decrypt di una SQL Credential per il pivot, e <code>SeBackupPrivilege</code> per il Pass-the-Hash finale.</p>
+
+  <div class="byline">
+    <div class="avatar"><img src="../../assets/sysk69.png" alt="SysK69"></div>
+    <div class="who">SysK69 <span style="color:var(--lime)">#IT</span> <span style="color:var(--dim);font-weight:400;font-size:12px;">· PRO HACKER · Sh4d0wC4ts</span></div>
+    <div class="tags"><span class="tag">HackTheBox</span><span class="tag">Unclaimed</span><span class="tag">Windows</span><span class="tag">Medium</span></div>
+  </div>
+
+  <div class="hero">
+    <div class="body">
+      <span class="mini">WRITEUP</span><span class="season">HTB SEASON 12</span>
+      <div class="graffiti">
+        <svg width="225" height="195" viewBox="0 0 150 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5cffd0"/><stop offset="1" stop-color="#0a6b4e"/></linearGradient>
+            <radialGradient id="eye" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#7cffe6"/><stop offset="1" stop-color="#0fa377"/></radialGradient>
+            <filter id="eg" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <g stroke="url(#g1)" stroke-width="2.6" stroke-linejoin="round" fill="#0b0f08">
+            <path d="M46 46 L34 14 L66 38 Z"/><path d="M104 46 L116 14 L84 38 Z"/>
+            <path d="M46 46 C40 56 38 70 44 86 C52 104 66 112 75 112 C84 112 98 104 106 86 C112 70 110 56 104 46 C92 36 58 36 46 46 Z"/>
+          </g>
+          <g filter="url(#eg)">
+            <ellipse cx="61" cy="70" rx="7.5" ry="10" fill="url(#eye)"/><ellipse cx="89" cy="70" rx="7.5" ry="10" fill="url(#eye)"/>
+            <rect x="59.6" y="62" width="2.8" height="16" rx="1.4" fill="#0b0f08"/><rect x="87.6" y="62" width="2.8" height="16" rx="1.4" fill="#0b0f08"/>
+          </g>
+          <path d="M72 84 L78 84 L75 89 Z" fill="#1ff0d6"/>
+        </svg>
+      </div>
+      <h2>Sh4d0wC4ts</h2>
+      <p><em>"Curiosity didn't kill this cat — it got root."</em></p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="c"><div class="k">OS</div><div class="v">Windows</div></div>
+    <div class="c"><div class="k">Difficulty</div><div class="v">Medium</div></div>
+    <div class="c"><div class="k">Points</div><div class="v">30 pts</div></div>
+    <div class="c"><div class="k">Released</div><div class="v">2026-11-07</div></div>
+  </div>
+
+  <div class="teaser">
+    <h3>Cosa copre il writeup completo</h3>
+    <ul>
+      <li><b>Recon</b> — superficie, perché è standalone, dove attaccare</li>
+      <li><b>Web / TracerBot</b> — l'agente text-to-SQL e il leak error-based</li>
+      <li><b>Foothold</b> — prompt-injection, override code <span class="blur">HTB-OPS-xxxx</span>, EXECUTE AS → RCE</li>
+      <li><b>Privesc</b> — SQL Credential, decrypt SMK/DPAPI → <span class="blur">password svc_xxxxxxx</span></li>
+      <li><b>Root</b> — SeBackupPrivilege, dump SAM, Pass-the-Hash</li>
+      <li><b>Rabbit holes</b> — tutte le vie fallite, documentate</li>
+      <li><b>Scripts / PoC</b> — <code>leak.py · override.py · dec.ps1 · dec_offline.py …</code></li>
+    </ul>
+  </div>
+
+  <div class="gate">
+    <div class="top">
+      <div class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div>
+      <h3>Writeup protetto</h3>
+      <p>Questa macchina <strong>non è ancora stata ritirata</strong> su HackTheBox. Per policy, writeup completo e script restano privati fino al retire. Vuoi accedervi prima? Richiedi l'accesso.</p>
+      <a class="cta" href="https://github.com/SysK69/HTB-Writeups/issues/new?title=Access%20request:%20Unclaimed&labels=access-request&body=HTB%20username:%20%0ATeam:%20%0AMotivo:%20%0A%0A(apri%20questa%20issue%20per%20richiedere%20l'accesso%20al%20repo%20privato;%20verrai%20aggiunto%20come%20collaboratore)" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .27.18.58.69.48A10 10 0 0012 2z"/></svg>
+        Request access su GitHub
+      </a>
+    </div>
+    <div class="status">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg>
+      <div>Pubblichiamo solo writeup di macchine <b>ritirate</b>. Appena Unclaimed verrà ritirata, questo diventerà <b>pubblicamente accessibile</b> — nessuna richiesta necessaria.</div>
+    </div>
+  </div>
+
+  <div class="how">
+    <h4>Come funziona la richiesta</h4>
+    <ol>
+      <li>Clicca <b>Request access su GitHub</b> → si apre una issue precompilata.</li>
+      <li>Inserisci il tuo <b>username HTB</b> e il motivo, poi invia.</li>
+      <li>Ti aggiungiamo come <b>collaboratore</b> al repo privato (writeup full + script).</li>
+      <li>Al retire la box diventa pubblica e la issue non serve più.</li>
+    </ol>
+  </div>
+
+  <div class="foot">😼 Sh4d0wC4ts — "Some shadows don't have a source." — UNCLAIMED · WRITEUP PROTETTO</div>
+
+</main></div>
+</body>
+</html>
